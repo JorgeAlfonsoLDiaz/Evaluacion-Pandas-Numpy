@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Datos</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,rgb(234, 170, 102) 0%,rgb(75, 146, 162) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg,rgb(254, 79, 79) 0%,rgb(184, 64, 64) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solidrgb(79, 254, 172);
+        }
+
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::before {
+            
+            font-size: 1.2em;
+        }
+
+        .file-upload-area {
+            border: 3px dashed #4facfe;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(45deg, #f8f9ff 0%, #e8f4fd 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-area:hover {
+            border-color:rgb(55, 0, 254);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(88, 79, 254, 0.2);
+        }
+
+        .file-upload-area.dragover {
+            border-color:rgb(0, 254, 80);
+            background: linear-gradient(45deg, #e8f4fd 0%, #d0eaff 100%);
+        }
+
+        .upload-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            color:rgb(19, 29, 133);
+        }
+
+        .btn {
+            background: linear-gradient(135deg,rgb(43, 27, 168) 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 5px;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input, .input-group select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color:rgb(111, 254, 79);
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e9ecef;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 0.9em;
+        }
+
+        th {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+        tr:hover td {
+            background-color: #f0f8ff;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border-top: 4px solid #4facfe;
+        }
+
+        .info-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .info-card .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4facfe;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card h4 {
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4facfe;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4facfe;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .demo-data-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .demo-data-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Análisis de Datos</h1>
+        </div>
+
+        <div class="main-content">
+            <div class="section">
+                <h2>Carga de Datos</h2>
+                <div class="file-upload-area" id="uploadArea">
+                    <div class="upload-icon"></div>
+                    <h3>Arrastra tu archivo CSV aquí o haz clic para seleccionar</h3>
+                    <p>Formatos soportados: CSV (.csv)</p>
+                    <input type="file" id="fileInput" accept=".csv" style="display: none;">
+                </div>
+                <div id="fileInfo" class="results hidden">
+                    <h3>Archivo cargado exitosamente</h3>
+                    <div class="code-block" id="loadCode">df = pd.read_csv('archivo.csv')</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Información Básica del DataFrame</h2>
+                <div class="controls">
+                    <button class="btn" onclick="showHead()">df.head()</button>
+                    <button class="btn" onclick="showTail()">df.tail()</button>
+                    <button class="btn" onclick="showInfo()">df.info()</button>
+                    <button class="btn" onclick="showDescribe()">df.describe()</button>
+                    <button class="btn" onclick="showShape()">df.shape</button>
+                    <button class="btn" onclick="showColumns()">df.columns</button>
+
+                    <div class="input-group">
+                        <label for="nRows">Número de filas:</label>
+                        <input type="number" id="nRows" value="5" min="1" max="50">
+                    </div>
+                </div>
+                <div id="basicInfo" class="results hidden"></div>
+            </div>
+
+            <div class="section">
+                <h2>Selección de Datos</h2>
+                <div class="controls">
+                    <div class="input-group">
+                        <label for="singleColumn">Columna única:</label>
+                        <select id="singleColumn">
+                            <option value="">Seleccionar columna...</option>
+                        </select>
+                        <button class="btn-secondary" onclick="selectSingleColumn()">Seleccionar</button>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="multipleColumns">Múltiples columnas:</label>
+                        <select id="multipleColumns" multiple style="height: 80px;">
+                        </select>
+                        <button class="btn-secondary" onclick="selectMultipleColumns()">Seleccionar</button>
+                    </div>
+                </div>
+                <div id="selectionResults" class="results hidden"></div>
+            </div>
+
+            <div class="section">
+                <h2>Filtrar Datos por Condición</h2>
+                <div class="controls">
+                    <div class="input-group">
+                        <label for="filterColumn">Columna:</label>
+                        <select id="filterColumn">
+                            <option value="">Seleccionar columna...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="filterOperator">Operador:</label>
+                        <select id="filterOperator">
+                            <option value=">">Mayor que (>)</option>
+                            <option value="<">Menor que (<)</option>
+                            <option value="==">Igual a (==)</option>
+                            <option value=">=">Mayor o igual (>=)</option>
+                            <option value="<=">Menor o igual (<=)</option>
+                            <option value="!=">Diferente de (!=)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="filterValue">Valor:</label>
+                        <input type="text" id="filterValue" placeholder="Ingrese valor...">
+                    </div>
+
+                    <button class="btn" onclick="applyFilter()">Aplicar Filtro</button>
+                </div>
+                <div id="filterResults" class="results hidden"></div>
+            </div>
+        </div>
+    </div>
+
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM Content Loaded!'); 
+
+        
+        let isDataLoaded = false;
+
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+
+        if (uploadArea) {
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+            uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                if (e.dataTransfer.files.length > 0) processFile(e.dataTransfer.files[0]);
+            });
+        }
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) processFile(e.target.files[0]);
+            });
+        }
+
+        async function processFile(file) {
+            if (!file.name.toLowerCase().endsWith('.csv')) {
+                alert('Por favor, selecciona un archivo CSV válido.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            showLoading('fileInfo', 'Cargando archivo...');
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error);
+                }
+
+                isDataLoaded = true;
+                populateColumnSelectors(result.columns);
+                
+                const loadCodeElement = document.getElementById('loadCode');
+                if (loadCodeElement) {
+                    loadCodeElement.textContent = `df = pd.read_csv('${file.name}')`;
+                }
+                hideLoading('fileInfo', '<h3>Archivo cargado exitosamente</h3>');
+
+            } catch (error) {
+                hideLoading('fileInfo', '');
+                alert('Error al cargar el archivo: ' + error.message);
+            }
+        }
+
+        window.generateDemoData = async function() {
+            showLoading('fileInfo', 'Generando datos de prueba...');
+            try {
+                const response = await fetch('/generate-demo-data', { method: 'POST' });
+                const result = await response.json();
+
+                if (!result.success) {
+                    throw new Error(result.error);
+                }
+                isDataLoaded = true;
+                populateColumnSelectors(result.columns);
+                const loadCodeElement = document.getElementById('loadCode');
+                if (loadCodeElement) {
+                    loadCodeElement.textContent = "# Datos de prueba generados desde el servidor";
+                }
+                hideLoading('fileInfo', '<h3>Datos de prueba generados exitosamente</h3>');
+
+            } catch (error) {
+                hideLoading('fileInfo', '');
+                alert('Error al generar datos: ' + error.message);
+            }
+        }
+
+     
+
+        function populateColumnSelectors(columns) {
+            const selectors = ['singleColumn', 'multipleColumns', 'filterColumn'];
+            selectors.forEach(selectorId => {
+                const selector = document.getElementById(selectorId);
+                if (selector) {
+                    selector.innerHTML = selectorId.includes('single') || selectorId.includes('filter') ? '<option value="">Seleccionar columna...</option>' : '';
+                    columns.forEach(col => {
+                        const option = document.createElement('option');
+                        option.value = col;
+                        option.textContent = col;
+                        selector.appendChild(option);
+                    });
+                }
+            });
+        }
+
+        function createTable(data, columns, caption = null) {
+            if (!data || data.length === 0) return '<p>No hay datos para mostrar.</p>';
+
+            let html = '<div class="table-container"><table>';
+            html += '<thead><tr>';
+            columns.forEach(col => { html += `<th>${col}</th>`; });
+            html += '</tr></thead><tbody>';
+
+            data.forEach(row => {
+                html += '<tr>';
+                columns.forEach(col => {
+                    const value = row[col];
+                    html += `<td>${value !== null && value !== undefined ? value : ''}</td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table></div>';
+            if (caption) {
+                html += `<p style="margin-top: 10px; color: #666;">${caption}</p>`;
+            }
+            return html;
+        }
+
+        function showLoading(elementId, message = 'Cargando...') {
+            const el = document.getElementById(elementId);
+            if (el) { 
+                el.innerHTML = `<div class="loading"><div class="spinner"></div><p>${message}</p></div>`;
+                el.classList.remove('hidden');
+            }
+        }
+
+        function hideLoading(elementId, contentAfterLoading) {
+            const el = document.getElementById(elementId);
+            if (el) { 
+                el.innerHTML = contentAfterLoading;
+                if (!contentAfterLoading) {
+                    el.classList.add('hidden');
+                } else {
+                    el.classList.remove('hidden');
+                }
+            }
+        }
+
+
+        function checkData() {
+            if (!isDataLoaded) {
+                alert('Primero debes cargar un archivo CSV o generar datos de prueba.');
+                return false;
+            }
+            return true;
+        }
+
+        window.showHead = async function() { 
+            if (!checkData()) return;
+            const nRowsInput = document.getElementById('nRows');
+            const n = parseInt(nRowsInput ? nRowsInput.value : '5') || 5;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/head', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ n: n })
+                });
+                const result = await response.json();
+                const table = createTable(result.data, result.columns);
+                hideLoading('basicInfo', `<h3>${result.code}</h3><div class="code-block">${result.code}</div>${table}`);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar head: ' + error.message);
+            }
+        }
+
+        window.showTail = async function() { 
+            if (!checkData()) return;
+            const nRowsInput = document.getElementById('nRows');
+            const n = parseInt(nRowsInput ? nRowsInput.value : '5') || 5;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/tail', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ n: n })
+                });
+                const result = await response.json();
+                const table = createTable(result.data, result.columns);
+                hideLoading('basicInfo', `<h3>${result.code}</h3><div class="code-block">${result.code}</div>${table}`);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar tail: ' + error.message);
+            }
+        }
+
+        window.showInfo = async function() { 
+            if (!checkData()) return;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/info');
+                const result = await response.json();
+                const info = result.info;
+
+                let infoHtml = `<h3>df.info()</h3><div class="code-block">${result.code}</div>`;
+                infoHtml += `<div class="info-grid">
+                                <div class="info-card"><h3>Filas</h3><div class="value">${info.shape[0]}</div></div>
+                                <div class="info-card"><h3>Columnas</h3><div class="value">${info.shape[1]}</div></div>
+                            </div>`;
+                infoHtml += `<h4 style="margin-top: 20px;">Información de Columnas:</h4><div style="background: white; padding: 15px; border-radius: 10px; margin-top: 10px;">`;
+                info.columns_info.forEach((col, index) => {
+                    infoHtml += `<p><strong>${index}:</strong> ${col.column} - ${col.non_null_count} non-null values, tipo: ${col.dtype}</p>`;
+                });
+                infoHtml += `</div>`;
+                hideLoading('basicInfo', infoHtml);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar info: ' + error.message);
+            }
+        }
+
+        window.showDescribe = async function() { 
+            if (!checkData()) return;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/describe');
+                const result = await response.json();
+
+                if(!result.success) {
+                     hideLoading('basicInfo', `<h3>df.describe()</h3><p>${result.message}</p>`);
+                     return;
+                }
+
+                let statsHtml = `<h3>df.describe()</h3><div class="code-block">${result.code}</div><div class="stats-container">`;
+                const data = result.data;
+                for (const col in data) {
+                    statsHtml += `<div class="stat-card"><h4>${col}</h4>`;
+                    statsHtml += `<p><strong>Count:</strong> ${data[col].count.toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>Mean:</strong> ${data[col].mean.toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>Std:</strong> ${data[col].std.toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>Min:</strong> ${data[col].min.toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>25%:</strong> ${data[col]['25%'].toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>50%:</strong> ${data[col]['50%'].toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>75%:</strong> ${data[col]['75%'].toFixed(2)}</p>`;
+                    statsHtml += `<p><strong>Max:</strong> ${data[col].max.toFixed(2)}</p>`;
+                    statsHtml += `</div>`;
+                }
+                statsHtml += `</div>`;
+                hideLoading('basicInfo', statsHtml);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar describe: ' + error.message);
+            }
+        }
+
+        window.showShape = async function() { 
+            if (!checkData()) return;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/shape');
+                const result = await response.json();
+                const html = `<h3>df.shape</h3><div class="code-block">${result.code}</div>
+                              <div class="info-grid"><div class="info-card"><h3>Dimensiones</h3><div class="value">(${result.shape})</div></div></div>
+                              <p style="margin-top: 15px;">El DataFrame tiene ${result.shape[0]} filas y ${result.shape[1]} columnas.</p>`;
+                hideLoading('basicInfo', html);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar shape: ' + error.message);
+            }
+        }
+
+        window.showColumns = async function() { 
+            if (!checkData()) return;
+            showLoading('basicInfo');
+            try {
+                const response = await fetch('/columns');
+                const result = await response.json();
+                const html = `<h3>df.columns</h3><div class="code-block">${result.code}</div>
+                              <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 15px;">
+                              <h4>Lista de Columnas:</h4><ul style="margin-top: 10px; padding-left: 20px;">
+                              ${result.columns.map((col, index) => `<li><strong>${index}:</strong> ${col}</li>`).join('')}
+                              </ul></div>`;
+                hideLoading('basicInfo', html);
+            } catch (error) {
+                hideLoading('basicInfo', '');
+                alert('Error al mostrar columnas: ' + error.message);
+            }
+        }
+
+        window.selectSingleColumn = async function() { 
+            if (!checkData()) return;
+            const singleColumnSelector = document.getElementById('singleColumn');
+            const columnName = singleColumnSelector ? singleColumnSelector.value : '';
+            if (!columnName) return;
+            showLoading('selectionResults');
+            try {
+                const response = await fetch('/select-column', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ column: columnName })
+                });
+                const result = await response.json();
+                const table = createTable(result.data, [columnName], `Mostrando las primeras 20 de ${result.total_rows} filas.`);
+                hideLoading('selectionResults', `<h3>${result.code}</h3><div class="code-block">${result.code}</div>${table}`);
+            } catch (error) {
+                hideLoading('selectionResults', '');
+                alert('Error al seleccionar columna única: ' + error.message);
+            }
+        }
+
+        window.selectMultipleColumns = async function() { 
+            if (!checkData()) return;
+            const selector = document.getElementById('multipleColumns');
+            const selectedColumns = selector ? Array.from(selector.selectedOptions).map(option => option.value) : [];
+            if (selectedColumns.length === 0) return;
+            showLoading('selectionResults');
+            try {
+                const response = await fetch('/select-columns', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ columns: selectedColumns })
+                });
+                const result = await response.json();
+                const table = createTable(result.data, result.columns, `Mostrando las primeras 20 de ${result.total_rows} filas.`);
+                hideLoading('selectionResults', `<h3>${result.code}</h3><div class="code-block">${result.code}</div>${table}`);
+            } catch (error) {
+                hideLoading('selectionResults', '');
+                alert('Error al seleccionar múltiples columnas: ' + error.message);
+            }
+        }
+
+        window.applyFilter = async function() { 
+            if (!checkData()) return;
+            const filterColumnInput = document.getElementById('filterColumn');
+            const filterOperatorInput = document.getElementById('filterOperator');
+            const filterValueInput = document.getElementById('filterValue');
+
+            const column = filterColumnInput ? filterColumnInput.value : '';
+            const operator = filterOperatorInput ? filterOperatorInput.value : '';
+            const value = filterValueInput ? filterValueInput.value : '';
+
+            if (!column || !value) return;
+
+            showLoading('filterResults');
+            try {
+                const response = await fetch('/filter', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ column, operator, value })
+                });
+                const result = await response.json();
+
+                if (!result.success) {
+                    hideLoading('filterResults', '');
+                    alert('Error al aplicar filtro: ' + result.error);
+                    return;
+                }
+
+                const table = createTable(result.data, result.columns, `Mostrando las primeras 50 de ${result.total_rows} filas filtradas.`);
+                let html = `<h3>Filtro Aplicado</h3><div class="code-block">${result.code}</div>
+                            <div class="info-grid" style="margin: 15px 0;">
+                                <div class="info-card"><h3>Filas Filtradas</h3><div class="value">${result.total_rows}</div></div>
+                                <div class="info-card"><h3>Total Original</h3><div class="value">${result.original_rows}</div></div>
+                                <div class="info-card"><h3>Porcentaje</h3><div class="value">${result.percentage}%</div></div>
+                            </div>${table}`;
+                hideLoading('filterResults', html);
+            } catch (error) {
+                hideLoading('filterResults', '');
+                alert('Error al aplicar filtro: ' + error.message);
+            }
+        }
+    });
+</script>
+</body>
+</html>
