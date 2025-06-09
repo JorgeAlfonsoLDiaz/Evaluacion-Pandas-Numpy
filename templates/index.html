@@ -479,30 +479,6 @@
                 alert('Error al cargar el archivo: ' + error.message);
             }
         }
-
-        window.generateDemoData = async function() {
-            showLoading('fileInfo', 'Generando datos de prueba...');
-            try {
-                const response = await fetch('/generate-demo-data', { method: 'POST' });
-                const result = await response.json();
-
-                if (!result.success) {
-                    throw new Error(result.error);
-                }
-                isDataLoaded = true;
-                populateColumnSelectors(result.columns);
-                const loadCodeElement = document.getElementById('loadCode');
-                if (loadCodeElement) {
-                    loadCodeElement.textContent = "# Datos de prueba generados desde el servidor";
-                }
-                hideLoading('fileInfo', '<h3>Datos de prueba generados exitosamente</h3>');
-
-            } catch (error) {
-                hideLoading('fileInfo', '');
-                alert('Error al generar datos: ' + error.message);
-            }
-        }
-
      
 
         function populateColumnSelectors(columns) {

@@ -1,0 +1,121 @@
+nombre,matricula,carrera,cal_asignatura1,cal_asignatura2,cal_asignatura3
+Luis Martínez,A38348,Administración,9.2,7.3,7.5
+Ana Díaz,A33749,Derecho,6.8,9.8,9.1
+Elena Ramírez,A41575,Arquitectura,6.9,6.0,6.4
+Miguel Sánchez,A84382,Ingeniería en Sistemas,9.4,6.9,9.3
+Juan Pérez,A45246,Contaduría,7.8,9.9,8.0
+Luis Morales,A45117,Arquitectura,8.4,6.8,9.1
+Sofía Morales,A46418,Psicología,8.4,9.1,7.5
+María López,A83733,Psicología,9.3,8.8,8.3
+Luis Martínez,A48585,Derecho,9.8,9.3,7.0
+Elena Pérez,A64415,Arquitectura,9.0,6.1,6.2
+Ana Hernández,A38420,Arquitectura,9.1,7.0,8.3
+Miguel Hernández,A31527,Ingeniería en Sistemas,7.6,7.4,8.1
+María Hernández,A82437,Ingeniería en Sistemas,6.9,6.5,8.9
+Carlos Cruz,A76219,Psicología,6.3,6.6,6.9
+Carlos Díaz,A33793,Derecho,9.7,9.4,8.6
+Carlos Cruz,A74099,Derecho,7.7,8.3,9.3
+Miguel Gómez,A42182,Arquitectura,9.3,9.3,6.9
+Luis Hernández,A85895,Ingeniería en Sistemas,10.0,9.0,7.7
+María Sánchez,A36197,Derecho,8.5,8.3,7.9
+María Gómez,A24759,Administración,9.3,6.3,8.5
+Sofía Gómez,A27466,Administración,8.8,9.3,9.9
+Lucía Cruz,A59226,Arquitectura,9.9,7.0,9.6
+Lucía Martínez,A68549,Administración,6.5,9.9,8.0
+Pedro Martínez,A99399,Ingeniería en Sistemas,6.6,6.3,9.1
+Lucía López,A68661,Psicología,9.6,9.6,6.8
+Luis Díaz,A34589,Ingeniería en Sistemas,7.2,9.7,6.1
+Elena López,A69229,Contaduría,7.3,7.8,7.9
+Miguel Ramírez,A42646,Administración,7.3,8.5,6.3
+Lucía Gómez,A46190,Derecho,7.3,8.0,8.3
+Juan Morales,A21148,Ingeniería en Sistemas,9.7,9.9,9.6
+Lucía Cruz,A94729,Psicología,9.6,8.8,6.7
+Juan Morales,A83720,Administración,6.9,8.4,8.0
+Lucía Morales,A15833,Ingeniería en Sistemas,9.4,8.0,9.9
+Elena Morales,A16183,Psicología,9.8,7.9,9.2
+María Martínez,A29049,Contaduría,6.8,6.9,6.9
+María Cruz,A45313,Contaduría,7.9,9.7,6.5
+Sofía Morales,A57704,Contaduría,8.8,7.7,6.1
+Carlos Gómez,A73659,Derecho,8.3,6.6,6.9
+Elena Hernández,A92726,Contaduría,8.6,7.7,6.0
+Miguel Martínez,A32950,Arquitectura,8.6,6.9,8.9
+Miguel Ramírez,A98041,Contaduría,8.1,9.2,6.8
+Juan Pérez,A93206,Derecho,9.5,9.1,8.3
+Pedro Morales,A21688,Ingeniería en Sistemas,7.3,9.3,7.0
+Juan Pérez,A26408,Arquitectura,8.8,8.2,6.5
+Lucía Sánchez,A33749,Psicología,9.1,8.9,8.6
+Sofía Sánchez,A81251,Arquitectura,8.6,9.3,7.8
+Luis Díaz,A43061,Ingeniería en Sistemas,7.9,7.6,9.5
+Luis Díaz,A52493,Psicología,7.9,7.8,6.5
+Juan Hernández,A58469,Administración,9.5,6.1,9.4
+Lucía Martínez,A76083,Contaduría,9.0,7.8,9.5
+Sofía Gómez,A83446,Derecho,8.2,9.8,7.5
+Sofía Morales,A60394,Derecho,7.5,7.1,8.3
+María Díaz,A63676,Arquitectura,9.7,7.7,7.7
+Sofía López,A79300,Ingeniería en Sistemas,8.5,6.2,6.2
+Elena Morales,A43904,Contaduría,6.9,6.8,6.9
+Elena Ramírez,A45060,Psicología,7.0,8.1,9.7
+Carlos Sánchez,A89427,Psicología,8.5,8.8,9.0
+Pedro Gómez,A40422,Contaduría,8.9,7.1,7.1
+Ana Hernández,A75271,Contaduría,7.6,8.8,9.8
+Lucía Morales,A25587,Arquitectura,7.9,6.8,8.0
+Lucía Gómez,A61616,Psicología,7.7,6.5,9.6
+Juan Ramírez,A21213,Arquitectura,8.0,6.3,9.7
+María López,A90387,Derecho,9.3,9.5,7.4
+Miguel Sánchez,A91152,Arquitectura,8.7,7.4,6.7
+Lucía Sánchez,A48837,Derecho,7.7,6.5,8.5
+Sofía Morales,A30914,Contaduría,9.8,9.8,6.2
+Elena López,A60324,Contaduría,7.0,8.5,8.6
+Lucía Gómez,A89132,Ingeniería en Sistemas,9.3,8.4,6.8
+Carlos Sánchez,A24745,Psicología,8.3,7.0,9.9
+María Ramírez,A64075,Contaduría,9.6,7.8,9.3
+Sofía Hernández,A88326,Ingeniería en Sistemas,8.5,7.7,9.4
+Carlos Ramírez,A61471,Ingeniería en Sistemas,6.7,8.4,8.5
+Pedro Sánchez,A16782,Contaduría,9.1,6.1,9.3
+Miguel Pérez,A94816,Psicología,6.7,7.9,9.3
+Miguel Morales,A15036,Ingeniería en Sistemas,8.0,8.1,6.3
+Pedro Hernández,A23579,Psicología,9.2,6.2,7.6
+María Sánchez,A68070,Administración,6.9,9.3,8.0
+María Ramírez,A28231,Psicología,8.6,7.6,6.1
+Elena Pérez,A15960,Contaduría,6.7,6.3,9.9
+Miguel Morales,A39580,Contaduría,6.5,7.9,9.2
+Carlos Pérez,A31003,Arquitectura,9.3,8.9,9.7
+Lucía Ramírez,A65456,Derecho,7.3,8.0,9.1
+Juan Cruz,A16247,Derecho,7.4,7.1,8.8
+Sofía Díaz,A85817,Arquitectura,9.1,8.9,7.9
+Luis Sánchez,A93458,Ingeniería en Sistemas,9.3,8.6,8.4
+Sofía Díaz,A52381,Arquitectura,6.6,8.7,6.3
+Juan Sánchez,A91985,Arquitectura,9.9,9.1,8.1
+Pedro López,A93523,Derecho,6.3,7.6,9.5
+María Hernández,A64218,Contaduría,7.7,8.2,8.9
+Ana Díaz,A17976,Ingeniería en Sistemas,6.9,8.1,8.7
+María Martínez,A91544,Arquitectura,8.9,6.0,10.0
+Sofía Ramírez,A56713,Psicología,8.1,6.1,6.3
+Luis Cruz,A14595,Derecho,7.6,7.1,6.5
+Lucía Sánchez,A37279,Ingeniería en Sistemas,8.9,7.4,7.0
+Pedro Hernández,A35380,Contaduría,9.6,6.7,9.9
+Luis Ramírez,A49598,Administración,9.4,9.0,6.1
+Carlos Martínez,A59378,Arquitectura,9.8,8.8,6.6
+Carlos Hernández,A37367,Ingeniería en Sistemas,8.9,9.6,8.6
+Sofía Gómez,A88163,Ingeniería en Sistemas,9.9,10.0,7.7
+Lucía Hernández,A11526,Contaduría,9.8,6.9,8.6
+Carlos Sánchez,A68210,Ingeniería en Sistemas,6.8,7.3,7.8
+Luis Sánchez,A63903,Arquitectura,8.0,7.0,8.8
+Luis Pérez,A91148,Administración,7.5,6.8,8.3
+Luis López,A22955,Contaduría,6.4,8.6,7.3
+Sofía Díaz,A88978,Contaduría,9.1,10.0,8.4
+María Pérez,A93562,Psicología,9.6,6.4,6.6
+Lucía López,A77949,Derecho,6.4,9.7,7.2
+Miguel Cruz,A83830,Administración,9.8,9.2,9.7
+María Martínez,A80336,Derecho,6.1,7.2,6.3
+Ana Sánchez,A86947,Psicología,9.9,7.6,9.9
+Elena Martínez,A39635,Administración,7.7,9.4,6.8
+Juan Ramírez,A23000,Contaduría,9.1,9.9,9.0
+Ana Cruz,A60394,Administración,9.6,7.9,6.0
+Miguel Hernández,A24209,Derecho,7.4,9.3,7.6
+Carlos Martínez,A99313,Administración,10.0,7.1,7.5
+María Gómez,A95916,Administración,8.3,7.5,6.0
+Juan Hernández,A13461,Administración,6.5,8.9,8.7
+Sofía Martínez,A97255,Psicología,9.5,7.1,6.9
+María Ramírez,A12573,Ingeniería en Sistemas,6.4,8.1,7.4
+María Díaz,A75817,Arquitectura,6.7,6.5,6.5

@@ -48,42 +48,7 @@ def upload_file():
     
     return jsonify({'error': 'Formato de archivo no válido'}), 400
 
-@app.route('/generate-demo-data', methods=['POST'])
-def generate_demo_data():
-    global current_df, original_df
-    
-    try:
-        np.random.seed(42) 
-        
-        nombres = ['Juan Pérez', 'María García', 'Carlos López', 'Ana Martínez', 
-                  'Pedro Rodríguez', 'Laura Hernández', 'Miguel Torres', 'Carmen Jiménez', 
-                  'José Ruiz', 'Isabel Moreno']
-        
-        carreras = ['Ingeniería en Sistemas', 'Administración', 'Contaduría', 
-                   'Psicología', 'Derecho', 'Medicina', 'Arquitectura']
-        
-        data = {
-            'nombre': [f"{np.random.choice(nombres)} {i+1}" for i in range(100)],
-            'matricula': [f"MAT{str(i+1).zfill(4)}" for i in range(100)],
-            'carrera': np.random.choice(carreras, 100),
-            'cal_asignatura1': np.round(np.random.uniform(60, 100, 100), 1),
-            'cal_asignatura2': np.round(np.random.uniform(60, 100, 100), 1),
-            'cal_asignatura3': np.round(np.random.uniform(60, 100, 100), 1)
-        }
-        
-        df = pd.DataFrame(data)
-        current_df = df.copy()
-        original_df = df.copy()
-        
-        return jsonify({
-            'success': True,
-            'message': 'Datos de prueba generados exitosamente',
-            'shape': df.shape,
-            'columns': df.columns.tolist()
-        })
-        
-    except Exception as e:
-        return jsonify({'error': f'Error al generar datos: {str(e)}'}), 400
+
 
 @app.route('/head', methods=['POST'])
 def get_head():
